@@ -5,6 +5,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastLoginDate: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
   email: {
     type: String,
     required: true,

@@ -21,6 +21,9 @@ export default async function handler(req, res) {
     const existingUser = await isUserRegistered(email);
 
     if (existingUser) {
+      existingUser.lastLoginDate = new Date();
+      existingUser.save();
+
       return {
         token: existingUser.token,
         type: 'existing',
@@ -31,6 +34,7 @@ export default async function handler(req, res) {
       registerType,
       email,
       uid: uuidv4(),
+      lastLoginDate: new Date(),
       name,
       picture,
       token,
