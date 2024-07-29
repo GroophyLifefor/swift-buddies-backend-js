@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     const newUser = new User({
       registerType,
       email,
-      userID: uuidv4(),
+      uid: uuidv4(),
       name,
       picture,
       token,
