@@ -2,6 +2,10 @@ import { User, isUserRegistered } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
 
 export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
+
   if (!req.body.registerType) {
     return res
       .status(400)

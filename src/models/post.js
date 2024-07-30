@@ -10,15 +10,15 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   sharedDate: {
-    type: Date,
+    type: String,
     required: true
   },
   content: {
     type: String,
     required: true
   },
-  image: {
-    type: String,
+  images: {
+    type: [String],
     required: false
   },
   likeCount: {
@@ -27,6 +27,14 @@ const userSchema = new mongoose.Schema({
   },
   likers: {
     type: [String], // Array of uid's
+    required: true
+  },
+  hashtags: {
+    type: [String],
+    required: true
+  },
+  commentCount: {
+    type: Number,
     required: true
   },
   comments: {

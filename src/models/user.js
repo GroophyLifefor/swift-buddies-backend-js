@@ -44,5 +44,18 @@ const isUserRegistered = async (email) => {
   return user; // Returns the user object if user exists, null otherwise
 };
 
-export { User, isUserRegistered };
+/**
+ * Get the user ID by token
+ * 
+ * @param {string} token - The token to check
+ * @returns {string} - The user ID
+ */
+const getUserIdByToken = async (token) => {
+  const user = await User.findOne({
+    token,
+  });
+  return user.uid;
+}
+
+export { User, isUserRegistered, getUserIdByToken };
 
