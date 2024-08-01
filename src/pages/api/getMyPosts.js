@@ -14,49 +14,12 @@ export default async function handler(req, res) {
       .json({ message: 'token is required. (use body to send)' });
   }
 
-  if (!req.body.range) {
-    return res
-      .status(400)
-      .json({ message: 'range is required. (use body to send)' });
-  }
-
-  const ranges = req.body.range.split('-');
-  if (!ranges[0] || !ranges[1]) {
-    return res.status(400).json({
-      message: 'range is invalid, value not defined. (use body to send)',
-    });
-  }
-
-  if (ranges[0] < 0 || ranges[1] < 0) {
-    return res.status(400).json({
-      message:
-        'range is invalid, values cannot lower than zero. (use body to send)',
-    });
-  }
-
-  if (ranges[0] > ranges[1]) {
-    return res.status(400).json({
-      message:
-        'range is invalid, start value cannot be greater than end value. (use body to send)',
-    });
-  }
-
-  const startRange = parseInt(ranges[0]);
-  const endRange = parseInt(ranges[1]);
-
-  if (isNaN(startRange) || isNaN(endRange)) {
-    return res.status(400).json({
-      message: 'range is invalid, values must be integer. (use body to send)',
-    });
-  }
-
-  const limit = endRange - startRange > 50 ? 50 : endRange - startRange;
+  const limit = 50;
 
   let posts = [];
   if (limit !== 0) {
-    posts = await Post.find()
+    posts = await Post.find({ owner_uid: await getUserIdByToken(req.body.token) })
       .sort({ sharedDate: -1 })
-      .skip(startRange)
       .limit(limit);
   }
     

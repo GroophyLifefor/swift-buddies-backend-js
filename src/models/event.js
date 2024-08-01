@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+const eventSchema = new mongoose.Schema({
   uid: {
     type: String,
     required: true
@@ -39,5 +39,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Event || mongoose.model('Event', userSchema);
+eventSchema.index({ name: 'text', description: 'text' });
+
+export default mongoose.models.Event || mongoose.model('Event', eventSchema);
 

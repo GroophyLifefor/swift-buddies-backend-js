@@ -14,7 +14,18 @@ function DateTimeToString(date) {
 
 function StringToDateTime(str) {
   const date = new Date(str);
-  return date;
+
+  if (isNaN(date.getTime())) {
+    return {
+      error: true,
+      date: null,
+    };
+  }
+
+  return {
+    error: false,
+    date,
+  };
 }
 
 export { DateTimeToString, StringToDateTime };
