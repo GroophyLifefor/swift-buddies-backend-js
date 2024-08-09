@@ -24,7 +24,7 @@ This endpoint retrieves a list of events.
 
 - Request script
 ```cmd
-curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token"}' -s | jq .  
+curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token"}' -s | jq .  
 ```
 
 - Response body:
@@ -52,7 +52,7 @@ curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/js
 
 - Request script (with just query)
 ```cmd
-curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "webinar"}' -s | jq .  
+curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "webinar"}' -s | jq .  
 ```
 
 - Response body:
@@ -79,7 +79,7 @@ curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/js
 
 - Request script (with just fromCategory)
 ```cmd
-curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "fromCategory": "networking"}' -s | jq .  
+curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "fromCategory": "networking"}' -s | jq .  
 ```
 
 - Response body:
