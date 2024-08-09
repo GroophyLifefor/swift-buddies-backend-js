@@ -14,15 +14,24 @@ export default async function handler(req, res) {
       .json({ message: 'token is required. (use body to send)' });
   }
 
+  const fromCategory = req.body.fromCategory || '';
+
   const query = req.body.query || '';
 
   let searchQuery = {};
   if (query) {
     searchQuery = { $text: { $search: query } };
   }
-  
-  const events = await Event.find(searchQuery)
-    .sort({ startDate: 1 });
 
-  res.status(200).json({ count: events.length, events });
+  let events = [];
+  if (fromCategory) {
+    events = await Event.find({
+      ...searchQuery,
+      category: fromCategory,
+    }).sort({ startDate: 1 });
+  } else {
+    events = await Event.find(searchQuery).sort({ startDate: 1 });
+  }
+
+  return res.status(200).json({ count: events.length, events });
 }

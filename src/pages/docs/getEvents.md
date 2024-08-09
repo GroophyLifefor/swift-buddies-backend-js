@@ -7,6 +7,7 @@ This endpoint retrieves a list of events.
 - Body
 - - token: String && Required
 - - query: String && **Optional**
+- - fromCategory: String && **Optional**
 
 #### Response
 
@@ -49,7 +50,7 @@ curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/js
 }
 ```
 
-- Request script (with query)
+- Request script (with just query)
 ```cmd
 curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "webinar"}' -s | jq .  
 ```
@@ -73,5 +74,59 @@ curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/js
       "__v": 0
     }
   ]
+}
+```
+
+- Request script (with just fromCategory)
+```cmd
+curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "fromCategory": "networking"}' -s | jq .  
+```
+
+- Response body:
+```json
+{
+    "count": 1,
+    "events": [
+        {
+            "_id": "66ab3e103a04a89a63d6a946",
+            "uid": "47849e92-de84-4e64-b163-0e1b482671ee",
+            "owner_uid": "6d2ef973-ea0c-4f59-85d4-574f21b523b2",
+            "category": "networking",
+            "name": "Tech Networking Event",
+            "description": "An event to network with professionals in the tech industry.",
+            "startDate": "2024-08-04T18:00:00Z",
+            "dueDate": "2024-08-04T21:00:00Z",
+            "latitude": 35.6895,
+            "longitude": 139.6917,
+            "__v": 0
+        }
+    ]
+}
+```
+
+- Request script (with query and fromCategory)
+```cmd
+curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "tech", "fromCategory": "networking" }' -s | jq .  
+```
+
+- Response body:
+```json
+{
+    "count": 1,
+    "events": [
+        {
+            "_id": "66ab3e103a04a89a63d6a946",
+            "uid": "47849e92-de84-4e64-b163-0e1b482671ee",
+            "owner_uid": "6d2ef973-ea0c-4f59-85d4-574f21b523b2",
+            "category": "networking",
+            "name": "Tech Networking Event",
+            "description": "An event to network with professionals in the tech industry.",
+            "startDate": "2024-08-04T18:00:00Z",
+            "dueDate": "2024-08-04T21:00:00Z",
+            "latitude": 35.6895,
+            "longitude": 139.6917,
+            "__v": 0
+        }
+    ]
 }
 ```
