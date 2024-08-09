@@ -106,7 +106,7 @@ curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/js
 
 - Request script (with query and fromCategory)
 ```cmd
-curl -X GET http://localhost:3000/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "tech", "fromCategory": "networking" }' -s | jq .  
+curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "tech", "fromCategory": "networking" }' -s | jq .  
 ```
 
 - Response body:

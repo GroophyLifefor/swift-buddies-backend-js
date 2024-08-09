@@ -21,7 +21,7 @@ This endpoint retrieves the posts associated with the user's account.
 
 - Request script
 ```cmd
-curl -X GET http://localhost:3000/api/getMyPosts -H "Content-Type: application/json" -d '{"token": "your_token"}' -s | jq .  
+curl -X GET https://swiftbuddies.vercel.app/api/getMyPosts -H "Content-Type: application/json" -d '{"token": "your_token"}' -s | jq .  
 ```
 
 - Response body:

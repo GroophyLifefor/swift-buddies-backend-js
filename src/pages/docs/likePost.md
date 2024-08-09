@@ -22,7 +22,7 @@ This endpoint allows the user to like a post by sending a POST request to the sp
 
 - Request script
 ```cmd
-curl -X POST http://localhost:3000/api/likePost -H "Content-Type: application/json" -d '{"token": "your_token", "post_uid": "05eabbf9-3459-49c1-b739-38db6d278172"}' -s | jq .  
+curl -X POST https://swiftbuddies.vercel.app/api/likePost -H "Content-Type: application/json" -d '{"token": "your_token", "post_uid": "05eabbf9-3459-49c1-b739-38db6d278172"}' -s | jq .  
 ```
 
 - Response body:

@@ -22,7 +22,7 @@ This endpoint allows the user to create a new post.
 
 - Request script
 ```cmd
-curl -X POST http://localhost:3000/api/createPost -H "Content-Type: application/json" -d '{"token": "your_token", "content": "I love SwiftBuddies"}' -s | jq .  
+curl -X POST https://swiftbuddies.vercel.app/api/createPost -H "Content-Type: application/json" -d '{"token": "your_token", "content": "I love SwiftBuddies"}' -s | jq .  
 ```
 
 - Response body:

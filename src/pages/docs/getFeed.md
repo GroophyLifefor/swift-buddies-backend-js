@@ -22,7 +22,7 @@ This endpoint retrieves the feed data.
 
 - Request script
 ```cmd
-curl -X GET http://localhost:3000/api/getFeed -H "Content-Type: application/json" -d '{"token": "your_token", "range": "0-2"}' -s | jq .  
+curl -X GET https://swiftbuddies.vercel.app/api/getFeed -H "Content-Type: application/json" -d '{"token": "your_token", "range": "0-2"}' -s | jq .  
 ```
 
 - Response body:

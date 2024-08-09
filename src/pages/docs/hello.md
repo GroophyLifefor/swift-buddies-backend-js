@@ -19,7 +19,7 @@ This endpoint allows you to send a POST request to retrieve a greeting message.
 
 - Request script
 ```cmd
-curl -X GET http://localhost:3000/api/hello -s | jq .  
+curl -X GET https://swiftbuddies.vercel.app/api/hello -s | jq .  
 ```
 
 - Response body:

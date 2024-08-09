@@ -23,7 +23,7 @@ The POST /api/register endpoint is used to register a user. The request should i
 
 - Request script
 ```cmd
-curl -X POST http://localhost:3000/api/register -H "Content-Type: application/json" -d '{"registerType": "google", "accessToken": "your_access_token_here"}' -s | jq .  
+curl -X POST https://swiftbuddies.vercel.app/api/register -H "Content-Type: application/json" -d '{"registerType": "google", "accessToken": "your_access_token_here"}' -s | jq .  
 ```
 
 - Response body:
