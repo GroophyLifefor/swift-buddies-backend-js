@@ -4,8 +4,10 @@ This endpoint allows you to create a new event.
 
 #### Request Body
 
+- Header
+- - Authorization: String && Required `means token`
+
 - Body
-- - token: String && Required
 - - category: String && Required
 - - name: String && Required
 - - description: String && Required

@@ -8,7 +8,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  if (!req.body.token) {
+  const tokenFromHeader = req.headers.authorization;
+  if (!tokenFromHeader) {
     return res
       .status(400)
       .json({ message: 'token is required. (use body to send)' });

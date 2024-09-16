@@ -4,8 +4,10 @@ This endpoint allows the user to like a post by sending a POST request to the sp
 
 #### Request Body
 
+- Header
+- - Authorization: String && Required `means token`
+
 - Body
-- - token: String && Required
 - - post_uid: String && Required
 
 #### Response

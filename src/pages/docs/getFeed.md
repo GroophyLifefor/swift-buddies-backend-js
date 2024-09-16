@@ -4,8 +4,10 @@ This endpoint retrieves the feed data.
 
 #### Request Body
 
+- Header
+- - Authorization: String && Required `means token`
+
 - Body
-- - token: String && Required
 - - range: "{value}-{value}" && Required
 
 #### Response

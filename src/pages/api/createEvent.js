@@ -8,7 +8,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  if (!req.body.token) {
+  const tokenFromHeader = req.headers.authorization;
+  if (!tokenFromHeader) {
     return res
       .status(400)
       .json({ message: 'token is required. (use body to send)' });
@@ -68,7 +69,7 @@ export default async function handler(req, res) {
 
   const event = {
     uid: uuidv4(),
-    owner_uid: await getUserIdByToken(req.body.token),
+    owner_uid: await getUserIdByToken(tokenFromHeader),
     category: req.body.category,
     name: req.body.name,
     description: req.body.description,

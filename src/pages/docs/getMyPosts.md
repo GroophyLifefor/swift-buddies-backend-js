@@ -4,8 +4,11 @@ This endpoint retrieves the posts associated with the user's account.
 
 #### Request Body
 
+- Header
+- - Authorization: String && Required `means token`
+
 - Body
-- - token: String && Required
+- - None
 
 #### Response
 

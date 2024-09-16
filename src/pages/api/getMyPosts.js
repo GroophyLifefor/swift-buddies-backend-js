@@ -8,7 +8,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  if (!req.body.token) {
+  const tokenFromHeader = req.headers.authorization;
+  if (!tokenFromHeader) {
     return res
       .status(400)
       .json({ message: 'token is required. (use body to send)' });
@@ -18,7 +19,7 @@ export default async function handler(req, res) {
 
   let posts = [];
   if (limit !== 0) {
-    posts = await Post.find({ owner_uid: await getUserIdByToken(req.body.token) })
+    posts = await Post.find({ owner_uid: await getUserIdByToken(tokenFromHeader) })
       .sort({ sharedDate: -1 })
       .limit(limit);
   }

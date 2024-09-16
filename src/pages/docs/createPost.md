@@ -4,8 +4,10 @@ This endpoint allows the user to create a new post.
 
 #### Request Body
 
+- Header
+- - Authorization: String && Required `means token`
+
 - Body
-- - token: String && Required
 - - content: String && Required
 
 #### Response

@@ -4,8 +4,10 @@ This endpoint retrieves a list of events.
 
 #### Request Body
 
+- Header
+- - Authorization: String && Required `means token`
+
 - Body
-- - token: String && Required
 - - query: String && **Optional**
 - - fromCategory: String && **Optional**
 
