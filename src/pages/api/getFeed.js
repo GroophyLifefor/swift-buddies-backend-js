@@ -12,33 +12,33 @@ export default async function handler(req, res) {
   if (!tokenFromHeader) {
     return res
       .status(400)
-      .json({ message: 'token is required. (use body to send)' });
+      .json({ message: 'token is required. (use header to send)' });
   }
 
-  if (!req.body.range) {
+  if (!req.query.range) {
     return res
       .status(400)
-      .json({ message: 'range is required. (use body to send)' });
+      .json({ message: 'range is required. (use query to send)' });
   }
 
-  const ranges = req.body.range.split('-');
+  const ranges = req.query.range.split('-');
   if (!ranges[0] || !ranges[1]) {
     return res.status(400).json({
-      message: 'range is invalid, value not defined. (use body to send)',
+      message: 'range is invalid, value not defined. (use query to send)',
     });
   }
 
   if (ranges[0] < 0 || ranges[1] < 0) {
     return res.status(400).json({
       message:
-        'range is invalid, values cannot lower than zero. (use body to send)',
+        'range is invalid, values cannot lower than zero. (use query to send)',
     });
   }
 
   if (ranges[0] > ranges[1]) {
     return res.status(400).json({
       message:
-        'range is invalid, start value cannot be greater than end value. (use body to send)',
+        'range is invalid, start value cannot be greater than end value. (use query to send)',
     });
   }
 
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
   if (isNaN(startRange) || isNaN(endRange)) {
     return res.status(400).json({
-      message: 'range is invalid, values must be integer. (use body to send)',
+      message: 'range is invalid, values must be integer. (use query to send)',
     });
   }
 

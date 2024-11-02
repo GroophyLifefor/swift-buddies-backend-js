@@ -7,7 +7,7 @@ This endpoint retrieves the feed data.
 - Header
 - - Authorization: String && Required `means token`
 
-- Body
+- Query
 - - range: "{value}-{value}" && Required
 
 #### Response
@@ -24,7 +24,7 @@ This endpoint retrieves the feed data.
 
 - Request script
 ```cmd
-curl -X GET https://swiftbuddies.vercel.app/api/getFeed -H "Content-Type: application/json" -d '{"token": "your_token", "range": "0-2"}' -s | jq .  
+curl -X GET "https://swiftbuddies.vercel.app/api/getFeed?token=your_token&range=0-2" -s | jq .
 ```
 
 - Response body:

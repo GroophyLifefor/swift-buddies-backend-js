@@ -7,7 +7,7 @@ This endpoint retrieves a list of events.
 - Header
 - - Authorization: String && Required `means token`
 
-- Body
+- Query
 - - query: String && **Optional**
 - - fromCategory: String && **Optional**
 
@@ -54,7 +54,7 @@ curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: appl
 
 - Request script (with just query)
 ```cmd
-curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "webinar"}' -s | jq .  
+curl -X GET "https://swiftbuddies.vercel.app/api/getEvents?token=your_token&query=webinar" -H "Content-Type: application/json" -s | jq .
 ```
 
 - Response body:
@@ -81,7 +81,7 @@ curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: appl
 
 - Request script (with just fromCategory)
 ```cmd
-curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "fromCategory": "networking"}' -s | jq .  
+curl -X GET "https://swiftbuddies.vercel.app/api/getEvents?token=your_token&fromCategory=networking" -s | jq .
 ```
 
 - Response body:
@@ -108,7 +108,7 @@ curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: appl
 
 - Request script (with query and fromCategory)
 ```cmd
-curl -X GET https://swiftbuddies.vercel.app/api/getEvents -H "Content-Type: application/json" -d '{"token": "your_token", "query": "tech", "fromCategory": "networking" }' -s | jq .  
+curl -X GET "https://swiftbuddies.vercel.app/api/getEvents?token=your_token&query=tech&fromCategory=networking" -s | jq .
 ```
 
 - Response body:
