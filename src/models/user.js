@@ -35,7 +35,6 @@ const userSchema = new mongoose.Schema({
   },
   picture: {
     type: String,
-    required: true,
   },
   token: {
     type: String,
@@ -69,7 +68,7 @@ const getUserIdByToken = async (token) => {
   if (!user) {
     return null;
   }
-  
+
   return user.uid;
 };
 
