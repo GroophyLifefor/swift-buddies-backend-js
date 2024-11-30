@@ -84,8 +84,40 @@ export default async function handler(req, res) {
 
     res.status(200).json({ token, type });
   } else if (req.body.registerType === 'apple') {
-    res.status(400).json({ message: 'Apple is not supported yet.' });
+    const JWT = req.body.accessToken;
+    const decoded = parseJwt(JWT);
+    
+    const email = decoded.email;
+
+    if (!email) {
+      return res
+        .status(400)
+        .json({ message: 'Failed to get email from Apple.' });
+    }
+    const beforeAt = email.split('@')[0];
+    if (!beforeAt || beforeAt.length < 1) {
+      return res
+        .status(400)
+        .json({ message: 'Invalid email from Apple.' });
+    }
+
+    const name = beforeAt;
+    const picture = '';
+
+    const { token, type } = await register({
+      registerType: req.body.registerType,
+      email,
+      name,
+      picture,
+    });
+
+    res.status(200).json({ token, type });
   } else {
     res.status(400).json({ message: 'Invalid registerType.' });
   }
 }
+
+function parseJwt (token) {
+  return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+}
+
