@@ -80,6 +80,7 @@ export default async function handler(req, res) {
       likerProfiles.push({
         name: liker.name,
         picture: liker.picture,
+        uid: liker.uid,
 
         // new field, check if current user liked this post
         isYou: liker.uid === userUID,
