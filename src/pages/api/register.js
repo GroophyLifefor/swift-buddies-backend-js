@@ -18,6 +18,8 @@ export default async function handler(req, res) {
       .json({ message: 'accessToken is required. (use body to send)' });
   }
 
+  console.log(req.body);
+
   async function register(data) {
     const { registerType, email, name, picture } = data;
     const token = uuidv4();
@@ -70,7 +72,7 @@ export default async function handler(req, res) {
         .status(response.status)
         .json({ message: 'Failed to get user info from Google.' });
     }
-    
+
     const data = await response.json();
 
     const { token, type } = await register({
