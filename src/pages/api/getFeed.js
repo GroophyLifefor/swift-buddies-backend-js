@@ -75,6 +75,7 @@ export default async function handler(req, res) {
 
     const likerProfiles = [];
     for (let j = 0; j < post.likers.length; j++) {
+      console.log(post.likers[j]);
       const liker = await User.findOne({ uid: post.likers[j] });
       likerProfiles.push({
         name: liker.name,

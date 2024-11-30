@@ -22,9 +22,10 @@ const userSchema = new mongoose.Schema({
   },
   uid: {
     type: String,
-    required: true
+    required: true,
   },
-  name: { // means display name
+  name: {
+    // means display name
     type: String,
     required: true,
   },
@@ -56,7 +57,7 @@ const isUserRegistered = async (email) => {
 
 /**
  * Get the user ID by token
- * 
+ *
  * @param {string} token - The token to check
  * @returns {string} - The user ID
  */
@@ -64,8 +65,12 @@ const getUserIdByToken = async (token) => {
   const user = await User.findOne({
     token,
   });
+
+  if (!user) {
+    return null;
+  }
+  
   return user.uid;
-}
+};
 
 export { User, isUserRegistered, getUserIdByToken };
-
