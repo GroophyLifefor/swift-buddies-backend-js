@@ -106,7 +106,8 @@ export default async function handler(req, res) {
 
         likers: likerProfiles,
         commentCount: post.commentCount,
-        comments: post.comments,
+        // TODO: For comments need a new endpoint request
+        // comments: post.comments,
         hashtags: post.hashtags,
       },
     })

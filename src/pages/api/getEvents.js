@@ -34,5 +34,24 @@ export default async function handler(req, res) {
     events = await Event.find(searchQuery).sort({ startDate: 1 });
   }
 
-  return res.status(200).json({ count: events.length, events });
+  const clientUid = await getUserIdByToken(tokenFromHeader);
+
+  let cleanedEvents = [];
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    cleanedEvents.push({
+      uid: event.uid,
+      owner_uid: event.owner_uid,
+      category: event.category,
+      name: event.name,
+      description: event.description,
+      startDate: event.startDate,
+      dueDate: event.dueDate,
+      latitude: event.latitude,
+      longitude: event.longitude,
+      isSelf: event.owner_uid === clientUid
+    });
+  }
+
+  return res.status(200).json({ count: events.length, events: cleanedEvents });
 }
