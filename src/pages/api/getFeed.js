@@ -83,7 +83,7 @@ export default async function handler(req, res) {
         uid: liker.uid,
 
         // new field, check if current user liked this post
-        isYou: liker.uid === userUID,
+        isSelf: liker.uid === userUID,
       });
     }
 
@@ -102,7 +102,7 @@ export default async function handler(req, res) {
         likeCount: post.likeCount,
         
         // new field, check if current user liked this post
-        isLikedByYou: isLiked,
+        isLiked: isLiked,
 
         likers: likerProfiles,
         commentCount: post.commentCount,
