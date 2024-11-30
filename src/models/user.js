@@ -5,6 +5,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // new field, registerDate
+  registerDate: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
   lastLoginDate: {
     type: Date,
     required: true,
@@ -18,7 +24,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  name: {
+  name: { // means display name
+    type: String,
+    required: true,
+  },
+  username: {
     type: String,
     required: true,
   },

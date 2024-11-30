@@ -12,7 +12,12 @@ export default async function handler(req, res) {
   if (!tokenFromHeader) {
     return res
       .status(400)
-      .json({ message: 'token is required. (use header to send)' });
+      .json({ message: 'token is required. (use headers as "Authorization" to send)' });
+  }
+
+  const user = await User.findOne({ token: tokenFromHeader });
+  if (!user) {
+    return res.status(404).json({ message: 'User not found.' });
   }
 
   if (!req.query.range) {
@@ -60,6 +65,8 @@ export default async function handler(req, res) {
       .skip(startRange)
       .limit(limit);
   }
+
+  const userUID = await getUserIdByToken(tokenFromHeader);
     
   const feed = [];
   for (let i = 0; i < posts.length; i++) {
@@ -72,8 +79,13 @@ export default async function handler(req, res) {
       likerProfiles.push({
         name: liker.name,
         picture: liker.picture,
+
+        // new field, check if current user liked this post
+        isYou: liker.uid === userUID,
       });
     }
+
+    const isLiked = post.likers.includes(userUID);
 
     feed.push({
       user: {
@@ -86,6 +98,10 @@ export default async function handler(req, res) {
         content: post.content,
         images: post.images,
         likeCount: post.likeCount,
+        
+        // new field, check if current user liked this post
+        isLikedByYou: isLiked,
+
         likers: likerProfiles,
         commentCount: post.commentCount,
         comments: post.comments,

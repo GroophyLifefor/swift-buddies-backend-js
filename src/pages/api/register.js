@@ -34,11 +34,15 @@ export default async function handler(req, res) {
       };
     }
 
+    const uid = uuidv4();
+
     const newUser = new User({
       registerType,
       email,
-      uid: uuidv4(),
+      uid,
+      username: uid,
       lastLoginDate: new Date(),
+      registerDate: new Date(),
       name,
       picture,
       token,
@@ -66,18 +70,7 @@ export default async function handler(req, res) {
         .status(response.status)
         .json({ message: 'Failed to get user info from Google.' });
     }
-
-    /*
-    {
-      sub: '1009108823139*****301',
-      name: 'Do*** Kı***',
-      given_name: 'Do***',
-      family_name: 'Kı***',
-      picture: 'https://lh3.googleusercontent.com/a/ACg8ocK77gqVed23kSUOBt88oAx-2860IQS1z6DA82VuucpYv6o4mA=s96-c',
-      email: 'do***@gmail.com',
-      email_verified: true
-    }
-    */
+    
     const data = await response.json();
 
     const { token, type } = await register({

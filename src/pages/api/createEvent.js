@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   if (!tokenFromHeader) {
     return res
       .status(400)
-      .json({ message: 'token is required. (use body to send)' });
+      .json({ message: 'token is required. (use headers as "Authorization" to send)' });
   }
 
   if (!req.body.category) {
