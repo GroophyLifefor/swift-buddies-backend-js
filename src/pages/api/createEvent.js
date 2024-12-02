@@ -2,6 +2,7 @@ import Event from '@/models/event';
 import { getUserIdByToken } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTimeToString, StringToDateTime } from '@/lib/date';
+import {User} from '@/models/user';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
