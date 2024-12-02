@@ -9,6 +9,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
+  const endpointUUID = uuidv4();
+  console.log({
+    endpointUUID,
+    type: "request",
+    method: "getEvents",
+    body: req.body,
+    headers: req.headers,
+    query: req.query
+  });
+
   const tokenFromHeader = req.headers.authorization;
   if (!tokenFromHeader) {
     return res
@@ -58,5 +68,16 @@ export default async function handler(req, res) {
     });
   }
 
-  return res.status(200).json({ count: events.length, events: cleanedEvents });
+  const responseBody = {
+    count: events.length,
+    events: cleanedEvents,
+  };
+  console.log({
+    endpointUUID,
+    type: "response",
+    method: "getEvents",
+    responseBody
+  });
+
+  return res.status(200).json(responseBody);
 }
