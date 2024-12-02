@@ -14,6 +14,7 @@ export default async function handler(req, res) {
       .status(400)
       .json({ message: 'token is required. (use headers as "Authorization" to send)' });
   }
+  const user = await User.findOne({ token: tokenFromHeader });
 
   const fromCategory = req.query.fromCategory || '';
 
@@ -41,7 +42,7 @@ export default async function handler(req, res) {
     const event = events[i];
     cleanedEvents.push({
       uid: event.uid,
-      owner_uid: event.owner_uid,
+      owner_uid: user.uid,
       category: event.category,
       name: event.name,
       description: event.description,
