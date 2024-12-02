@@ -26,6 +26,9 @@ export default async function handler(req, res) {
       .json({ message: 'token is required. (use headers as "Authorization" to send)' });
   }
   const user = await User.findOne({ token: tokenFromHeader });
+  if (!user) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
 
   const fromCategory = req.query.fromCategory || '';
 
