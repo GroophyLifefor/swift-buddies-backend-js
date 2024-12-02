@@ -41,9 +41,12 @@ export default async function handler(req, res) {
   let cleanedEvents = [];
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
+    if (!event) {
+      continue;
+    }
     cleanedEvents.push({
       uid: event.uid,
-      owner_uid: user.uid,
+      owner_uid: event.owner_uid,
       category: event.category,
       name: event.name,
       description: event.description,
