@@ -1,4 +1,5 @@
 import Post from '@/models/post';
+import { createImage } from '@/models/image';
 import { getUserIdByToken } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTimeToString } from '@/lib/date';
@@ -12,11 +13,13 @@ export default async function handler(req, res) {
   if (!tokenFromHeader) {
     return res
       .status(400)
-      .json({ message: 'token is required. (use headers as "Authorization" to send)' });
+      .json({
+        message: 'token is required. (use headers as "Authorization" to send)',
+      });
   }
 
-  const user = await getUserIdByToken(tokenFromHeader);
-  if (!user) {
+  const userId = await getUserIdByToken(tokenFromHeader);
+  if (!userId) {
     return res.status(404).json({ message: 'User not found.' });
   }
 
@@ -26,6 +29,7 @@ export default async function handler(req, res) {
       .json({ message: 'content is required. (use body to send)' });
   }
 
+  const imageIDs = [];
   if (!!req.body.images) {
     if (!Array.isArray(req.body.images)) {
       return res
@@ -40,7 +44,9 @@ export default async function handler(req, res) {
           .json({ message: 'images must be a string. (use body to send)' });
       }
 
-
+      const base64 = req.body.images[i];
+      const imageID = await createImage(userId, base64);
+      imageIDs.push(imageID);
     }
   }
 
@@ -49,10 +55,10 @@ export default async function handler(req, res) {
 
   const post = {
     uid: uuidv4(),
-    owner_uid: await getUserIdByToken(tokenFromHeader),
+    owner_uid: userId,
     sharedDate: DateTimeToString(new Date()),
     content,
-    images: [],
+    images: imageIDs,
     likeCount: 0,
     likers: [],
     hashtags: hashtags || [],

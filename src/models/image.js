@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const imageSchema = new mongoose.Schema({
   uid: {
@@ -13,9 +14,14 @@ const imageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isPrivate: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-export default mongoose.models.Image || mongoose.model('Image', imageSchema);
+const Image = mongoose.models.Image || mongoose.model('Image', imageSchema);
+export default Image;
 
 export const getImageByUid = async (uid) => {
   const image = await Image.findOne({ uid });
@@ -47,5 +53,5 @@ export const createImage = async (owner_uid, base64) => {
     base64,
   });
   await image.save();
-  return image;
+  return uuid;
 }
