@@ -26,6 +26,24 @@ export default async function handler(req, res) {
       .json({ message: 'content is required. (use body to send)' });
   }
 
+  if (!!req.body.images) {
+    if (!Array.isArray(req.body.images)) {
+      return res
+        .status(400)
+        .json({ message: 'images must be an array. (use body to send)' });
+    }
+
+    for (let i = 0; i < req.body.images.length; i++) {
+      if (typeof req.body.images[i] !== 'string') {
+        return res
+          .status(400)
+          .json({ message: 'images must be a string. (use body to send)' });
+      }
+
+
+    }
+  }
+
   const content = req.body.content;
   const hashtags = content.match(/#[a-z0-9]+/gi);
 
@@ -34,7 +52,7 @@ export default async function handler(req, res) {
     owner_uid: await getUserIdByToken(tokenFromHeader),
     sharedDate: DateTimeToString(new Date()),
     content,
-    images: req.body.images || [],
+    images: [],
     likeCount: 0,
     likers: [],
     hashtags: hashtags || [],

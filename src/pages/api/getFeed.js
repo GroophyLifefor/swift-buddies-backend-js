@@ -14,63 +14,62 @@ export default async function handler(req, res) {
   if (!tokenFromHeader) {
     return res
       .status(400)
-      .json({ message: 'token is required. (use headers as "Authorization" to send)' });
+      .json({
+        message: 'token is required. (use headers as "Authorization" to send)',
+      });
   }
 
-  console.log(tokenFromHeader)
   const user = await User.findOne({ token: tokenFromHeader });
   if (!user) {
     return res.status(404).json({ message: 'User not found.' });
   }
 
-  if (!req.query.range) {
+  if (!req.query.offset) {
     return res
       .status(400)
-      .json({ message: 'range is required. (use query to send)' });
+      .json({ message: 'offset is required. (use query to send)' });
   }
 
-  const ranges = req.query.range.split('-');
-  if (!ranges[0] || !ranges[1]) {
+  if (!req.query.limit) {
+    return res
+      .status(400)
+      .json({ message: 'limit is required. (use query to send)' });
+  }
+
+  if (isNaN(req.query.offset) || isNaN(req.query.limit)) {
     return res.status(400).json({
-      message: 'range is invalid, value not defined. (use query to send)',
+      message: 'offset or limit is invalid, values must be integer. (use query to send)',
     });
   }
 
-  if (ranges[0] < 0 || ranges[1] < 0) {
+  const offset = parseInt(req.query.offset);
+  const limit = parseInt(req.query.limit);
+
+  if (offset < 0 || offset < 0) {
     return res.status(400).json({
       message:
         'range is invalid, values cannot lower than zero. (use query to send)',
     });
   }
 
-  if (ranges[0] > ranges[1]) {
+  if (offset > limit) {
     return res.status(400).json({
       message:
         'range is invalid, start value cannot be greater than end value. (use query to send)',
     });
   }
 
-  const startRange = parseInt(ranges[0]);
-  const endRange = parseInt(ranges[1]);
-
-  if (isNaN(startRange) || isNaN(endRange)) {
-    return res.status(400).json({
-      message: 'range is invalid, values must be integer. (use query to send)',
-    });
-  }
-
-  const limit = endRange - startRange > 50 ? 50 : endRange - startRange;
 
   let posts = [];
   if (limit !== 0) {
     posts = await Post.find()
       .sort({ sharedDate: -1 })
-      .skip(startRange)
+      .skip(offset)
       .limit(limit);
   }
 
   const userUID = await getUserIdByToken(tokenFromHeader);
-    
+
   const feed = [];
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
@@ -103,7 +102,7 @@ export default async function handler(req, res) {
         content: post.content,
         images: post.images,
         likeCount: post.likeCount,
-        
+
         // new field, check if current user liked this post
         isLiked: isLiked,
 
@@ -113,9 +112,8 @@ export default async function handler(req, res) {
         // comments: post.comments,
         hashtags: post.hashtags,
       },
-    })
+    });
   }
 
-
-  res.status(200).json({feed});
+  res.status(200).json({ feed });
 }
