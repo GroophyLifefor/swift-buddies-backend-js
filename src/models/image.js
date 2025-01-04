@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import mongoose from '@/lib/mongoose';
 
 const imageSchema = new mongoose.Schema({
   uid: {
     type: String,
     required: true,
+    unique: true,
   },
   owner_uid: {
     type: String,
@@ -18,40 +18,30 @@ const imageSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  uploadDate: {
+    type: Date,
+    default: Date.now,
+  }
 });
 
 const Image = mongoose.models.Image || mongoose.model('Image', imageSchema);
-export default Image;
 
-export const getImageByUid = async (uid) => {
-  const image = await Image.findOne({ uid });
-  return image;
-};
-
-
-export const getImagesByOwnerUid = async (owner_uid) => {
-  const images = await Image.find({ owner_uid });
-  return images;
-}
-
-export const deleteImageByUid = async (uid) => {
-  const image = await Image.findOneAndDelete({ uid });
-  return;
-}
-
-export const deleteImagesByOwnerUid = async (owner_uid) => {
-  const images = await Image.find({ owner_uid });
-  await Image.deleteMany({ owner_uid });
-  return;
-}
-
-export const createImage = async (owner_uid, base64) => {
-  const uuid = uuidv4()
-  const image = new Image({
-    uid: uuid,
+export async function createImage({ uid, owner_uid, base64, isPrivate, uploadDate }) {
+  return await Image.create({
+    uid,
     owner_uid,
     base64,
+    isPrivate,
+    uploadDate
   });
-  await image.save();
-  return uuid;
 }
+
+export async function getImageByUid(uid) {
+  return await Image.findOne({ uid });
+}
+
+export async function deleteImage(uid) {
+  return await Image.deleteOne({ uid });
+}
+
+export default Image;
