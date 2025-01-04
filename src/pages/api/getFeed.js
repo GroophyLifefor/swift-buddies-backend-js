@@ -45,17 +45,10 @@ export default async function handler(req, res) {
   const offset = parseInt(req.query.offset);
   const limit = parseInt(req.query.limit);
 
-  if (offset < 0 || offset < 0) {
+  if (offset < 0 || limit < 0) {
     return res.status(400).json({
       message:
-        'range is invalid, values cannot lower than zero. (use query to send)',
-    });
-  }
-
-  if (offset > limit) {
-    return res.status(400).json({
-      message:
-        'range is invalid, start value cannot be greater than end value. (use query to send)',
+        'offset and limit must be non-negative values. (use query to send)',
     });
   }
 
