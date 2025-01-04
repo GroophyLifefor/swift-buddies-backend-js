@@ -19,6 +19,7 @@ async function dbConnect() {
         return cached.conn
     }
     if (!cached.promise) {
+        console.log('Db connecting')
         const opts = {
             bufferCommands: false,
         }

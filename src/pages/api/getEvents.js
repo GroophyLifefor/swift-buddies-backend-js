@@ -3,6 +3,7 @@ import { getUserIdByToken } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTimeToString, StringToDateTime } from '@/lib/date';
 import {User} from '@/models/user';
+import { parseBearer } from '@/lib/utils';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
     query: req.query
   });
 
-  const tokenFromHeader = req.headers.authorization;
+  const tokenFromHeader = parseBearer(req.headers.authorization);
   if (!tokenFromHeader) {
     return res
       .status(400)

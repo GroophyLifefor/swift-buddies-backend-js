@@ -1,12 +1,13 @@
 import Post from '@/models/post';
 import { getUserIdByToken } from '@/models/user';
+import { parseBearer } from '@/lib/utils';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const tokenFromHeader = req.headers.authorization;
+  const tokenFromHeader = parseBearer(req.headers.authorization);
   if (!tokenFromHeader) {
     return res
       .status(400)

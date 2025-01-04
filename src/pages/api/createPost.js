@@ -3,13 +3,14 @@ import { createImage } from '@/models/image';
 import { getUserIdByToken } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTimeToString } from '@/lib/date';
+import { parseBearer } from '@/lib/utils';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const tokenFromHeader = req.headers.authorization;
+  const tokenFromHeader = parseBearer(req.headers.authorization);
   if (!tokenFromHeader) {
     return res
       .status(400)
@@ -56,7 +57,7 @@ export default async function handler(req, res) {
   const post = {
     uid: uuidv4(),
     owner_uid: userId,
-    sharedDate: DateTimeToString(new Date()),
+    sharedDate: new Date(),
     content,
     images: imageIDs,
     likeCount: 0,

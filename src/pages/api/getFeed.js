@@ -1,7 +1,8 @@
 import Post from '@/models/post';
 import { getUserIdByToken, User } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
-import { DateTimeToString } from '@/lib/date';
+import { DateTimeToString, StringToDateTime } from '@/lib/date';
+import { parseBearer } from '@/lib/utils';
 
 export const fetchCache = 'force-dynamic';
 
@@ -10,13 +11,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const tokenFromHeader = req.headers.authorization;
+  const tokenFromHeader = parseBearer(req.headers.authorization);
   if (!tokenFromHeader) {
-    return res
-      .status(400)
-      .json({
-        message: 'token is required. (use headers as "Authorization" to send)',
-      });
+    return res.status(400).json({
+      message: 'token is required. (use headers as "Authorization" to send)',
+    });
   }
 
   const user = await User.findOne({ token: tokenFromHeader });
@@ -38,7 +37,8 @@ export default async function handler(req, res) {
 
   if (isNaN(req.query.offset) || isNaN(req.query.limit)) {
     return res.status(400).json({
-      message: 'offset or limit is invalid, values must be integer. (use query to send)',
+      message:
+        'offset or limit is invalid, values must be integer. (use query to send)',
     });
   }
 
@@ -59,13 +59,31 @@ export default async function handler(req, res) {
     });
   }
 
-
+  const since = req.query.since;
   let posts = [];
-  if (limit !== 0) {
-    posts = await Post.find()
-      .sort({ sharedDate: -1 })
-      .skip(offset)
-      .limit(limit);
+
+  if (!since) {
+    if (limit !== 0) {
+      posts = await Post.find()
+        .sort({ sharedDate: -1 })
+        .skip(offset)
+        .limit(limit);
+    }
+  } else {
+    const parsedDate = StringToDateTime(since);
+    if (!parsedDate || parsedDate.error) {
+      return res.status(400).json({
+        message: 'since parameter must be a valid date format',
+      });
+    }
+
+    if (limit !== 0) {
+      posts = await Post.find({ sharedDate: { $gt: parsedDate.date } })
+        .sort({ sharedDate: -1 })
+        .skip(offset)
+        .limit(limit  )
+    }
+
   }
 
   const userUID = await getUserIdByToken(tokenFromHeader);
@@ -98,7 +116,7 @@ export default async function handler(req, res) {
       },
       post: {
         uid: post.uid,
-        sharedDate: post.sharedDate,
+        sharedDate: DateTimeToString(new Date(post.sharedDate)),
         content: post.content,
         images: post.images,
         likeCount: post.likeCount,
