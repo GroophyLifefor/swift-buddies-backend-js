@@ -122,6 +122,7 @@ export default async function handler(req, res) {
         // TODO: For comments need a new endpoint request
         // comments: post.comments,
         hashtags: post.hashtags,
+        isSelf: post.owner_uid === userUID,
       },
     });
   }
