@@ -1,4 +1,5 @@
-import mongoose from '@/lib/mongoose';
+import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const imageSchema = new mongoose.Schema({
   uid: {
@@ -40,8 +41,18 @@ export async function getImageByUid(uid) {
   return await Image.findOne({ uid });
 }
 
+export async function getImagesByOwnerUid(owner_uid) {
+  return await Image.find({ owner_uid });
+}
+
 export async function deleteImage(uid) {
-  return await Image.deleteOne({ uid });
+  return await Image.findOneAndDelete({ uid });
+}
+
+export async function deleteImagesByOwnerUid(owner_uid) {
+  const images = await Image.find({ owner_uid });
+  await Image.deleteMany({ owner_uid });
+  return images;
 }
 
 export default Image;
