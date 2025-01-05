@@ -1,5 +1,5 @@
 import Post from '@/models/post';
-import { createImage } from '@/models/image';
+import { getImageByUid } from '@/models/image';
 import { getUserIdByToken } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTimeToString } from '@/lib/date';
@@ -12,11 +12,9 @@ export default async function handler(req, res) {
 
   const tokenFromHeader = parseBearer(req.headers.authorization);
   if (!tokenFromHeader) {
-    return res
-      .status(400)
-      .json({
-        message: 'token is required. (use headers as "Authorization" to send)',
-      });
+    return res.status(400).json({
+      message: 'token is required. (use headers as "Authorization" to send)',
+    });
   }
 
   const userId = await getUserIdByToken(tokenFromHeader);
@@ -45,8 +43,12 @@ export default async function handler(req, res) {
           .json({ message: 'images must be a string. (use body to send)' });
       }
 
-      const base64 = req.body.images[i];
-      const imageID = await createImage(userId, base64);
+      const imageID = req.body.images[i];
+      const image = await getImageByUid(imageID);
+      if (!image) {
+        return res.status(404).json({ message: 'Image not found.' });
+      }
+
       imageIDs.push(imageID);
     }
   }
