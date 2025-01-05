@@ -22,13 +22,14 @@ export default async function handler(req, res) {
     return res.status(404).json({ message: 'User not found.' });
   }
 
-  if (!req.query.postUID) {
+  const postID = req.query.postID;
+  if (!postID) {
     return res
       .status(400)
-      .json({ message: 'postUID is required. (use query to send)' });
+      .json({ message: 'postID is required. (use query to send)' });
   }
 
-  const post = await Post.findOne({ uid: req.query.postUID });
+  const post = await Post.findOne({ uid: postID });
   if (!post) {
     return res.status(404).json({ message: 'Post not found.' });
   }
@@ -37,7 +38,7 @@ export default async function handler(req, res) {
     return res.status(403).json({ message: 'Forbidden' });
   }
 
-  const result = await Post.deleteOne({ uid: req.query.postUID });
+  const result = await Post.deleteOne({ uid: postID });
   if (result.deletedCount === 1) {
     res.status(200).json({ message: 'Post deleted successfully.' });
   } else {
