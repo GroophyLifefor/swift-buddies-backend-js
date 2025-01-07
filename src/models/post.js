@@ -23,41 +23,20 @@ const postSchema = new mongoose.Schema({
   },
   likeCount: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
   },
   likers: {
     type: [String], // Array of uid's
-    required: true
+    required: true,
+    default: []
   },
   hashtags: {
     type: [String],
     required: true
   },
-  commentCount: {
-    type: Number,
-    required: true
-  },
   comments: {
-    type: [
-      {
-        owner_uid: {
-          type: String,
-          required: true
-        },
-        content: {
-          type: String,
-          required: true
-        },
-        likeCount: {
-          type: Number,
-          required: true
-        },
-        likers: {
-          type: [String], // Array of uid's
-          required: true
-        }
-      }
-    ],
+    type: [String], // Array of comment uid's
     required: true
   }
 });

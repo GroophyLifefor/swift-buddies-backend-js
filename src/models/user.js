@@ -72,4 +72,12 @@ const getUserIdByToken = async (token) => {
   return user.uid;
 };
 
-export { User, isUserRegistered, getUserIdByToken };
+const getUserById = async (uid) => {
+  const user = await User.findOne({
+    uid,
+  });
+
+  return user;
+}
+
+export { User, isUserRegistered, getUserIdByToken, getUserById };
