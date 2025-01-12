@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/storage": "^7.15.0",
     "mongoose": "^8.9.3",
     "next": "14.2.5",
     "react": "^18",
