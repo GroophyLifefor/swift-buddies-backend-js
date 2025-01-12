@@ -1,5 +1,5 @@
 import { User } from '@/models/user';
-import { getImageByUid, deleteImage } from '@/models/image';
+import { getImageByUid } from '@/models/image';
 import { parseBearer } from '@/lib/utils';
 import { deleteImage } from '@/lib/image_db';
 
