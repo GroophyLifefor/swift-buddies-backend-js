@@ -36,12 +36,13 @@ try {
   throw new Error('Bucket initialize error');
 }
 
-async function saveImage(buffer, uid) {
-  const uniqueName = `swiftbuddies-images/${uid}.png`;
+async function saveImage(buffer, uid, contentType = 'image/heic') {
+  const extension = contentType.split('/')[1];
+  const uniqueName = `swiftbuddies-images/${uid}.${extension}`;
 
   try {
     await bucket.file(uniqueName).save(buffer, {
-      contentType: 'image/png',
+      contentType: contentType,
       gzip: true,
     });
     return true;
@@ -52,6 +53,14 @@ async function saveImage(buffer, uid) {
 }
 
 async function getImage(uid) {
+  try {
+    const heicFile = await bucket.file(`swiftbuddies-images/${uid}.heic`);
+    const [exists] = await heicFile.exists();
+    if (exists) return heicFile;
+  } catch (err) {
+    console.warn('HEIC file not found, trying PNG');
+  }
+
   return bucket.file(`swiftbuddies-images/${uid}.png`);
 }
 
