@@ -2,7 +2,7 @@ import { User } from '@/models/user';
 import { createImage } from '@/models/image';
 import { parseBearer } from '@/lib/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { saveImage } from "@/lib/image_db";
+import { saveImage, getImage } from "@/lib/image_db";
 
 export const config = {
   api: {
@@ -53,5 +53,6 @@ export default async function handler(req, res) {
     return res.status(500).json({ message: 'Upload failed' });
   }
 
-  return res.status(200).json({ uid });
+  const url = await getImage(uid);
+  return res.status(200).json({ uid, url });
 }
