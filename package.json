@@ -11,7 +11,7 @@
   "dependencies": {
     "@google-cloud/storage": "^7.15.0",
     "http": "^0.0.1-security",
-    "mongoose": "^8.9.3",
+    "mongoose": "^8.9.5",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
