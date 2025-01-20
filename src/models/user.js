@@ -36,6 +36,16 @@ const userSchema = new mongoose.Schema({
   picture: {
     type: String,
   },
+  socialMedias: {
+    type: [
+      {
+        key: String,
+        value: String,
+      },
+    ],
+    default: [],
+    required: true,
+  },
   token: {
     type: String,
     required: true,
@@ -78,6 +88,6 @@ const getUserById = async (uid) => {
   });
 
   return user;
-}
+};
 
 export { User, isUserRegistered, getUserIdByToken, getUserById };
