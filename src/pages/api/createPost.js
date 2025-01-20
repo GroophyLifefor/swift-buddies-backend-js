@@ -4,6 +4,7 @@ import { getUserIdByToken } from '@/models/user';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTimeToString } from '@/lib/date';
 import { parseBearer } from '@/lib/utils';
+import { getImage } from '@/lib/image_db';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -44,7 +45,7 @@ export default async function handler(req, res) {
       }
 
       const imageID = req.body.images[i];
-      const image = await getImageByUid(imageID);
+      const image = await getImage(imageID);
       if (!image) {
         return res.status(404).json({ message: 'Image not found.' });
       }
